@@ -478,7 +478,7 @@ impl YTAStatus {
         }
 
         // New versions of ytarchive prepend a timestamp to the output
-        let line = if self.version == Some("0.3.2".into())
+        let line = if self.version == Some("0.4.0".into())
             && line.len() > 20
             && line.chars().nth(4) == Some('/')
         {
@@ -516,6 +516,7 @@ impl YTAStatus {
             || line.contains("error writing the muxcmd file")
             || line.contains("Something must have gone wrong with ffmpeg")
             || line.contains("At least one error occurred")
+            || line.contains("The .ts files will not be deleted)
         {
             self.state = YTAState::Errored;
         } else if line.trim().is_empty()
@@ -524,6 +525,8 @@ impl YTAStatus {
             || line.starts_with("Channel: ")
             || line.starts_with("Waiting for this time to elapse")
             || line.starts_with("Download Finished")
+            || line.starts_with("frame=")
+            || line.starts_with("Retries:")
         {
             // Ignore
         } else {
