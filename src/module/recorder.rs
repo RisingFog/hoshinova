@@ -239,6 +239,13 @@ impl YTArchive {
                         status: TaskStatus::Failed,
                     }))
                 }
+                YTAState::Errored => {
+                    info!("{} Recording failed: errored", task_name);
+                    Some(Message::ToNotify(Notification {
+                        task: task.clone(),
+                        status: TaskStatus::Failed,
+                    }))
+                }
                 _ => None,
             };
 
