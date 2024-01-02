@@ -453,7 +453,7 @@ impl YTAStatus {
         self.last_update = chrono::Utc::now();
 
         // Newer versions can cause a recording to start again after finishing recording
-        if self.state != YTAState::Finished {
+        if self.state != YTAState::Finished && self.state != YTAState::Errored {
             if line.starts_with("Video Fragments: ") {
                 self.state = YTAState::Recording;
                 let mut parts = line.split(';').map(|s| s.split(':').nth(1).unwrap_or(""));
